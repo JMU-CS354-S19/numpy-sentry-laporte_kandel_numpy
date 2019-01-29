@@ -33,10 +33,16 @@ class SentryNode(object):
         self.cv_bridge = CvBridge()
         rospy.Subscriber('/camera/depth_registered/image',
                          Image, self.depth_callback, queue_size=1)
-	rospy.Publisher('/mobile_base/commands/sound',Image,queue_size=1)
-	prev = None
-	current = None
+        rospy.Publisher('/mobile_base/commands/sound',Image,queue_size=1)
+        self.sound_pub = rospy.Publisher('/mobile_base/commands/sound', Sound, queue_size=1)
         rospy.spin()
+        self.sound = Sound()
+        self.sound.value = 1
+        self.prev = None
+        self.avg = None
+        self.th = 2
+        self.alpha = .75
+        
 
     def depth_callback(self, depth_msg):
         """ Handle depth callbacks. """
