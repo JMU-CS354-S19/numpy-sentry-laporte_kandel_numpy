@@ -39,7 +39,7 @@ class SentryNode(object):
         self.sound = Sound()
         self.sound.value = 1
         self.prev = None
-        self.avg = None
+        self.avg = 0
         self.th = 2
         self.alpha = .75
         rospy.spin()
@@ -49,15 +49,14 @@ class SentryNode(object):
 
         # Convert the depth message to a numpy array
         depth = self.cv_bridge.imgmsg_to_cv2(depth_msg)
-        mid = depth_msg.width/2
-        curr = depth[:,mid]
+        curr = depth[:,depth_msg.width/2]
         # YOUR CODE HERE.
         
         if self.prev != None :
             depth_num = curr - self.prev
             depth_num = depth_num[~np.isnan(depth_num)]
             depth_num = np.linalg.norm(depth_num)
-            self.avg = self.avg * self.alpha + d * (1 - self.alpha)
+            self.avg = self.avg * self.alpha + depth_num * (1 - self.alpha)
             if depth_num/self.avg > self.th :
                 self.sound_pub.publish(self.sound)
         self.prev = curr
