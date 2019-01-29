@@ -42,32 +42,20 @@ class SentryNode(object):
         """ Handle depth callbacks. """
 
         # Convert the depth message to a numpy array
-
-	if(self.current != None)
-		prev = current
-
         depth = self.cv_bridge.imgmsg_to_cv2(depth_msg)
-
-	
-
+        mid = depth_msg.width/2
+        current = depth[:,mid]
         # YOUR CODE HERE.
-	
-	depthNum = np.array([depth])
-	size = np.shape
-	#depthMid = depthNum[:,1:2]
-	colMid = size[1]/2
-	current = colMid
-	sumPrev = sumPrev[~np.isnan(sumPrev)]
-	sumCur = sumCur[~np.isnam(sumCur)]
-	sumPrev = np.sum(prev)
-	sumCur = np.sum(current)
-	depthVal = np.absolute(current) - np.absolute(prev)
-	
-
-	
-	
-	
-	
+        
+        if self.prev != None :
+            depth_num = curr - self.prev
+            depth_num = depth_num[~np.isnan(depth_num)]
+            depth_num = np.linalg.norm(depth_num)
+            self.avg = self.avg * self.alpha + d * (1 - self.alpha)
+            #print d/self.average
+            if d/self.avg > self.th :
+                self.sound_pub.publish(self.sound)
+        self.prev = curr
 	
         # HELPER METHODS ARE GOOD.
 
