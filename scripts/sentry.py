@@ -52,7 +52,6 @@ class SentryNode(object):
             depth_num = depth_num[~np.isnan(depth_num)]
             depth_num = np.linalg.norm(depth_num)
             self.avg = self.avg * self.alpha + d * (1 - self.alpha)
-            #print d/self.average
             if d/self.avg > self.th :
                 self.sound_pub.publish(self.sound)
         self.prev = curr
