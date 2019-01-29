@@ -50,7 +50,7 @@ class SentryNode(object):
         # Convert the depth message to a numpy array
         depth = self.cv_bridge.imgmsg_to_cv2(depth_msg)
         mid = depth_msg.width/2
-        current = depth[:,mid]
+        curr = depth[:,mid]
         # YOUR CODE HERE.
         
         if self.prev != None :
