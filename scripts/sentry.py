@@ -34,7 +34,6 @@ class SentryNode(object):
         self.cv_bridge = CvBridge()
         rospy.Subscriber('/camera/depth_registered/image',
                          Image, self.depth_callback, queue_size=1)
-        rospy.Publisher('/mobile_base/commands/sound',Image,queue_size=1)
         self.sound_pub = rospy.Publisher('/mobile_base/commands/sound', Sound, queue_size=1)
         self.sound = Sound()
         self.sound.value = 1
@@ -52,7 +51,7 @@ class SentryNode(object):
         curr = depth[:,depth_msg.width/2]
         # YOUR CODE HERE.
         
-        if self.prev != None :
+	if self.prev != None :
             depth_num = curr - self.prev
             depth_num = depth_num[~np.isnan(depth_num)]
             depth_num = np.linalg.norm(depth_num)
